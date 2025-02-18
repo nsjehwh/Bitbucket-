@@ -1,5 +1,5 @@
 image: node:latest  # Use Node.js for the bot
-size:2x
+size:2x:
 pipelines:
   default:
     - step:
@@ -7,7 +7,8 @@ pipelines:
         script:
           - apt-get update && apt-get install -y gcc  # Install GCC for compiling
           - gcc -o venompapa rspapa.c -lpthread             # Compile C helper tool
-          - chmod +x helper_binary                    # Ensure executable permission
+                              # Ensure executable permission
           
-          - npm install                               # Install Node.js dependencies
+          - npm install
+          - npm npm install node-telegram-bot-api express # Install Node.js dependencies
           - node bot.js                               # Run the Telegram bot
