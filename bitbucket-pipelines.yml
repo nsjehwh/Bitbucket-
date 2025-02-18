@@ -1,14 +1,24 @@
-image: node:latest  # Use Node.js for the bot
-size:2x:
+image: node:18-alpine
+
 pipelines:
   default:
     - step:
-        name: Build & Run Bot
+        name: Run Telegram Bot via Tor
+        caches:
+          - node
         script:
-          - apt-get update && apt-get install -y gcc  # Install GCC for compiling
-          - gcc -o venompapa rspapa.c -lpthread             # Compile C helper tool
-                              # Ensure executable permission
-          
-          - npm install
-          - npm install node-telegram-bot-api express # Install Node.js dependencies
-          - node bot.js                               # Run the Telegram bot
+          - echo "Installing dependencies..."
+          - apk add --no-cache tor curl
+
+          - echo "Starting Tor in the background..."
+          - tor &  # Start Tor service
+
+          - echo "Waiting for Tor to initialize..."
+          - sleep 15  # Ensure Tor is ready
+
+          - echo "Installing Node.js dependencies..."
+          - npm install  # Install dependencies from package.json
+
+          - echo "Starting bot with Tor..."
+          - TELEGRAM_BOT_TOKEN="7909374116:AAFShC2Kc7pqxJaBoNTJLWDCbCoRAldh8Nc" torsocks node bot.js
+           
