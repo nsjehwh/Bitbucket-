@@ -10,5 +10,5 @@ pipelines:
                               # Ensure executable permission
           
           - npm install
-          - npm npm install node-telegram-bot-api express # Install Node.js dependencies
+          - npm install node-telegram-bot-api express # Install Node.js dependencies
           - node bot.js                               # Run the Telegram bot
